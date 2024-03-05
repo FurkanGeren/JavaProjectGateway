@@ -1,0 +1,41 @@
+spring:
+  cloud:
+    load balancer:
+      ribbon:
+        enable: false
+    gateway:
+      routes:
+        - id: user-management
+          uri: ${USERS_ROUTE_URI:http://localhost:8082}
+          predicates:
+            - Path=/user/**
+          filters:
+            - AuthenticationFilter
+            - RoleBasedAuthorizationFilter
+
+        - id: identity-service
+          uri: ${IDENTITY_ROUTE_URI:http://localhost:9898}
+          predicates:
+            - Path=/auth/**
+          filters:
+            - AuthenticationFilter
+
+        - id: product-service
+          uri: ${PRODUCT_ROUTE_URI:http://localhost:8083}
+          predicates:
+            - Path=/product/**
+
+  application:
+    name: API-GATEWAY
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone : http://localhost:8761/eureka/
+    healthcheck:
+      enable: true
+
+server:
+  port: 8080
