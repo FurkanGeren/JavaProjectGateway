@@ -1,8 +1,10 @@
 spring:
   application:
-    name: IDENTITY-SERVICE
+    name: identity-service
 
 eureka:
+  instance:
+    prefer-ip-address: true
   client:
     service-url:
       defaultZone : http://localhost:8761/eureka/
@@ -11,3 +13,4 @@ eureka:
 
 server:
   port: 9898
+

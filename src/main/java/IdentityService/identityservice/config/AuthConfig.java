@@ -30,11 +30,8 @@ public class AuthConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request ->
                         request
-                                .requestMatchers("/users/all").hasAnyAuthority("Role_Admin")
                                 .requestMatchers("/auth/register", "/auth/token", "/auth/validate").permitAll()
                                 .anyRequest().authenticated()
-
-
                 );
                 return http.build();
     }

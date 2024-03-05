@@ -15,6 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +35,9 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+
+
+
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public ResponseEntity<List<User>> getUsers(@AuthenticationPrincipal UserDetails userDetails){
 
@@ -49,4 +53,5 @@ public class UserController {
         }
 
     }
+
 }

@@ -1,6 +1,5 @@
 package IdentityService.identityservice.service;
 
-import IdentityService.identityservice.entity.Role;
 import IdentityService.identityservice.entity.User;
 import IdentityService.identityservice.repository.RoleRepository;
 import IdentityService.identityservice.repository.UserRepository;
@@ -8,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AuthService {
@@ -39,14 +38,19 @@ public class AuthService {
         roles.add(roleRepository.findByRoleName("Role_Admin")); // Örneğin, bir tane daha rol ekleyelim
 
         newUser.setRoles(roles);*/
-        newUser.setRoles(Arrays.asList(roleRepository.findByRoleName("Role_Kasiyer")));
+        newUser.setRoles(Arrays.asList(roleRepository.findByRoleName("Role_Admin")));
 
         userRepository.save(newUser);
         return "user added to the system";
     }
 
-    public String generateToken(String username) {
-        return jwtService.generateToken(username);
+    public List<String> userRole(String username){
+        return userRepository.findRoleByName(username);
+    }
+
+    public String generateToken(String username,String roles) {
+        //List role = userRole(username);
+        return jwtService.generateToken(username,roles);
     }
 
     public void validateToken(String token) {
